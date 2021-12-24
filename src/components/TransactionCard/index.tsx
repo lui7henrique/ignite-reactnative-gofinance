@@ -7,7 +7,8 @@ type Category = {
   icon: string;
 };
 
-type TransactionCardProps = {
+export type TransactionCardProps = {
+  type: "positive" | "negative";
   title: string;
   amount: string;
   date: string;
@@ -15,15 +16,19 @@ type TransactionCardProps = {
 };
 
 export const TransactionCard = ({
+  type,
   title,
   amount,
   date,
   category,
 }: TransactionCardProps) => {
   return (
-    <S.Container>
+    <S.Container type={type}>
       <S.Title>{title}</S.Title>
-      <S.Amount>{amount}</S.Amount>
+      <S.Amount>
+        {type === "negative" ? "- " : "+ "}
+        {amount}
+      </S.Amount>
       <S.Footer>
         <S.Category>
           <S.CategoryIcon name={category.icon} />

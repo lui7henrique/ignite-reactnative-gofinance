@@ -3,9 +3,12 @@ import { Feather } from "@expo/vector-icons";
 
 import { RFValue, RFPercentage } from "react-native-responsive-fontsize";
 
-export const Container = styled.View`
+export const Container = styled.View<{ type: "positive" | "negative" }>`
   background-color: ${({ theme }) => theme.colors.shape};
   border-radius: 5px;
+  border-left-width: 5px;
+  border-left-color: ${({ theme, type }) =>
+    type === "positive" ? theme.colors.success : theme.colors.attention};
 
   padding: 16px 24px;
   margin-bottom: 16px;
@@ -38,7 +41,8 @@ export const Category = styled.View`
 
 export const CategoryIcon = styled(Feather)`
   font-size: ${RFValue(16)}px;
-  color: ${({ theme }) => theme.colors.secondary};
+  color: ${({ theme }) => theme.colors.text};
+  opacity: 0.2;
 `;
 
 export const CategoryName = styled.Text`
