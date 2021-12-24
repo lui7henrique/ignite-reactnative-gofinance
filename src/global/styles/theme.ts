@@ -12,6 +12,7 @@ export default {
     attention_light: "rbga(232, 63, 91, 0.5)",
 
     title: "#e1e1e6;",
+    support: "#737380",
     text: "#a8a8b3",
     black: "#09090a",
     shape: "#202024",
