@@ -10,10 +10,12 @@ export const Container = styled.View`
 `;
 
 export const Header = styled.View`
+  background-color: ${({ theme }) => theme.colors.primary};
+
   width: 100%;
   height: ${RFPercentage(42)}px;
-  background-color: ${({ theme }) => theme.colors.primary};
-  padding-top: ${RFValue(StatusBar.currentHeight! + 24)}px;
+
+  padding-top: ${RFValue(StatusBar.currentHeight! + 28)}px;
   padding-right: 24px;
   padding-left: 24px;
 `;
@@ -55,4 +57,14 @@ export const UserName = styled.Text`
 
 export const Icon = styled(Feather)`
   color: ${({ theme }) => theme.colors.secondary};
+`;
+
+export const HighlightCards = styled.ScrollView.attrs({
+  horizontal: true,
+  showsHorizontalScrollIndicator: false,
+  contentContainerStyle: { paddingHorizontal: 24 },
+})`
+  width: 100%;
+  position: absolute;
+  margin-top: ${RFPercentage(20)}px;
 `;
