@@ -9,6 +9,12 @@ export const Container = styled.View`
   background-color: ${({ theme }) => theme.colors.background}};
 `;
 
+/* -------------------------------------------------------------------------- */
+/*                                                                            */
+/*                                Header                                      */
+/*                                                                            */
+/* -------------------------------------------------------------------------- */
+
 export const Header = styled.View`
   background-color: ${({ theme }) => theme.colors.primary};
 
@@ -59,6 +65,12 @@ export const Icon = styled(Feather)`
   color: ${({ theme }) => theme.colors.secondary};
 `;
 
+/* -------------------------------------------------------------------------- */
+/*                                                                            */
+/*                                Cards                                       */
+/*                                                                            */
+/* -------------------------------------------------------------------------- */
+
 export const HighlightCards = styled.ScrollView.attrs({
   horizontal: true,
   showsHorizontalScrollIndicator: false,
@@ -68,3 +80,25 @@ export const HighlightCards = styled.ScrollView.attrs({
   position: absolute;
   margin-top: ${RFPercentage(20)}px;
 `;
+
+/* -------------------------------------------------------------------------- */
+/*                                                                            */
+/*                                Transactions                                */
+/*                                                                            */
+/* -------------------------------------------------------------------------- */
+
+export const Transactions = styled.View`
+  flex: 1%;
+  padding: 0 24px;
+`;
+
+export const Title = styled.Text`
+  font-size: ${RFValue(18)}px;
+  margin-top: ${RFPercentage(12)}px;
+  margin-bottom: 16px;
+  color: ${({ theme }) => theme.colors.text};
+
+  font-family: ${({ theme }) => theme.fonts.regular};
+`;
+
+export const TransactionsList = styled.FlatList``;
