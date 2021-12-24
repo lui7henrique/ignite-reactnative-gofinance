@@ -2,15 +2,19 @@ import React, { useMemo } from "react";
 import { format } from "date-fns";
 
 import { HighlightCard } from "../../components/HighlightCard";
-import { TransactionCard } from "../../components/TransactionCard";
+import {
+  TransactionCard,
+  TransactionCardProps,
+} from "../../components/TransactionCard";
 
 import * as S from "./styles";
 
 export function Dashboard() {
-  const data = useMemo(
+  const data: TransactionCardProps[] = useMemo(
     () => [
       {
         id: 1,
+        type: "positive",
         title: "Desenvolvimento de aplicativo",
         amount: "R$ 12.000,00",
         category: {
@@ -20,32 +24,25 @@ export function Dashboard() {
         date: format(new Date(), "dd/MM/yyyy"),
       },
       {
-        id: 1,
+        id: 2,
         title: "Hamburgueria Pizzy",
-        amount: "- R$ 59,00",
+        type: "negative",
+        amount: "R$ 59,00",
         category: {
           name: "Alimentação",
           icon: "coffee",
         },
         date: format(new Date(), "dd/MM/yyyy"),
       },
+
       {
-        id: 1,
-        title: "Hamburgueria Pizzy",
-        amount: "- R$ 59,00",
+        id: 3,
+        type: "negative",
+        title: "Mac OS",
+        amount: "R$ 13.000,00",
         category: {
-          name: "Alimentação",
-          icon: "coffee",
-        },
-        date: format(new Date(), "dd/MM/yyyy"),
-      },
-      {
-        id: 1,
-        title: "Hamburgueria Pizzy",
-        amount: "- R$ 59,00",
-        category: {
-          name: "Alimentação",
-          icon: "coffee",
+          name: "Hardware",
+          icon: "cpu",
         },
         date: format(new Date(), "dd/MM/yyyy"),
       },
@@ -91,19 +88,16 @@ export function Dashboard() {
       </S.HighlightCards>
 
       <S.Transactions>
-        <S.Title>Transações</S.Title>
+        <S.Title>Histórico de transações</S.Title>
+
         <S.TransactionsList
           data={data}
           renderItem={({ item }) => (
-            <TransactionCard {...(item as typeof data[0])} />
+            <TransactionCard {...(item as TransactionCardProps)} />
           )}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 40 }}
         />
-        {/* <S.TransactionsList data={data} renderItem={({item} => <TransactionCard key={item.id} {...item} /></S.Transactions>)}>
-            return ;
-          })}
-        </S.TransactionsList> */}
       </S.Transactions>
     </S.Container>
   );
