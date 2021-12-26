@@ -4,7 +4,7 @@ const formatToBRL = (value: number): string => {
     .replace(".", ",")
     .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
 
-  return formattedValue;
+  return `R$ ${formattedValue}`;
 };
 
 export { formatToBRL };
