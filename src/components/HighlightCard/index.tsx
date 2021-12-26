@@ -5,18 +5,18 @@ type HighlightCardProps = {
   title: string;
   amount: string;
   lastTransaction: string;
-  type: "up" | "down" | "total";
+  type: "positive" | "negative" | "total";
 };
 
 const icon = {
-  up: "arrow-up-circle",
-  down: "arrow-down-circle",
+  positive: "arrow-up-circle",
+  negative: "arrow-down-circle",
   total: "dollar-sign",
 };
 
 const iconColor = {
-  up: theme.colors.secondary,
-  down: theme.colors.secondary,
+  positive: theme.colors.secondary,
+  negative: theme.colors.secondary,
   total: theme.colors.secondary,
 };
 

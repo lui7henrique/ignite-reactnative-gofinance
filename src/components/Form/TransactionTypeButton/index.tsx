@@ -3,13 +3,13 @@ import * as S from "./styles";
 
 type TransactionTypeButtonProps = {
   title: string;
-  type: "up" | "down";
+  type: "positive" | "negative";
   isActive?: boolean;
 } & TouchableOpacityProps;
 
 const icons = {
-  up: "arrow-up-circle",
-  down: "arrow-down-circle",
+  positive: "arrow-up-circle",
+  negative: "arrow-down-circle",
 };
 
 export const TransactionTypeButton = ({

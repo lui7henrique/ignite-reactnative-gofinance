@@ -6,7 +6,7 @@ import { RFValue } from "react-native-responsive-fontsize";
 
 export const Container = styled(TouchableOpacity)<{
   isActive?: boolean;
-  type: "up" | "down";
+  type: "positive" | "negative";
 }>`
   width: 48%;
 
@@ -20,14 +20,14 @@ export const Container = styled(TouchableOpacity)<{
 
  ${({ isActive, type }) =>
    isActive &&
-   type === "up" &&
+   type === "positive" &&
    css`
      background-color: ${({ theme }) => theme.colors.success_light};
    `})}
 
   ${({ isActive, type }) =>
     isActive &&
-    type === "down" &&
+    type === "negative" &&
     css`
       background-color: ${({ theme }) => theme.colors.attention_light};
     `})}
@@ -36,11 +36,11 @@ export const Container = styled(TouchableOpacity)<{
   padding: 16px;
 `;
 
-export const Icon = styled(Feather)<{ type: "up" | "down" }>`
+export const Icon = styled(Feather)<{ type: "positive" | "negative" }>`
   font-size: ${RFValue(24)}px;
   margin-right: 12px;
   color: ${({ theme, type }) =>
-    type === "up" ? theme.colors.success : theme.colors.attention};
+    type === "positive" ? theme.colors.success : theme.colors.attention};
 `;
 
 export const Title = styled.Text`

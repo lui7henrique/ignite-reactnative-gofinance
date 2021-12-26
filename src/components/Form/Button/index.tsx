@@ -1,6 +1,5 @@
 import * as S from "./styles";
 import { TouchableOpacityProps } from "react-native";
-import theme from "../../../global/styles/theme";
 
 type ButtonProps = {
   title: string;

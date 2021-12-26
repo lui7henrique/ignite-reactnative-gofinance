@@ -1,18 +1,13 @@
-import theme from "../../global/styles/theme";
+import { categories } from "../../utils/categories";
 
 import * as S from "./styles";
-
-type Category = {
-  name: string;
-  icon: string;
-};
 
 export type TransactionCardProps = {
   type: "positive" | "negative";
   title: string;
   amount: string;
   date: string;
-  category: Category;
+  category: string;
 };
 
 export const TransactionCard = ({
@@ -20,13 +15,15 @@ export const TransactionCard = ({
   title,
   amount,
   date,
-  category,
+  category: categoryKey,
 }: TransactionCardProps) => {
+  const category = categories.find((c) => c.key === categoryKey)!;
+
   return (
     <S.Container type={type}>
       <S.Title>{title}</S.Title>
       <S.Amount>
-        {type === "negative" ? "- " : "+ "}
+        {type === "positive" ? "+ " : "- "}
         {amount}
       </S.Amount>
       <S.Footer>
