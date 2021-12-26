@@ -23,7 +23,7 @@ export const AppRouter = () => {
         tabBarLabelPosition: "beside-icon",
         tabBarStyle: {
           borderTopWidth: 0,
-          height: 60,
+          height: 50,
           paddingVertical: Platform.OS === "ios" ? 20 : 0,
         },
       }}
