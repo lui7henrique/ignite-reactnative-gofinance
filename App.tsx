@@ -2,8 +2,8 @@ import React from "react";
 import { StatusBar } from "expo-status-bar";
 import AppLoading from "expo-app-loading";
 
-import { Dashboard } from "./src/screens/Dashboard";
-import { Register } from "./src/screens/Register";
+import { NavigationContainer } from "@react-navigation/native";
+import { AppRouter } from "./src/routes/app.routes";
 
 import { ThemeProvider } from "styled-components";
 
@@ -30,7 +30,9 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <StatusBar backgroundColor={theme.colors.primary} style="light" />
-      <Register />
+      <NavigationContainer>
+        <AppRouter />
+      </NavigationContainer>
     </ThemeProvider>
   );
 }
