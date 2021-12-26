@@ -13,5 +13,6 @@ export const Container = styled.TextInput<TextInputProps>`
   font-size: ${RFValue(14)}px;
   font-family: ${({ theme }) => theme.fonts.regular};
   color: ${({ theme }) => theme.colors.text};
+
   margin-bottom: 8px;
 `;

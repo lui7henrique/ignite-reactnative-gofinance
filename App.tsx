@@ -4,6 +4,7 @@ import AppLoading from "expo-app-loading";
 
 import { Dashboard } from "./src/screens/Dashboard";
 import { Register } from "./src/screens/Register";
+
 import { ThemeProvider } from "styled-components";
 
 import theme from "./src/global/styles/theme";
