@@ -1,15 +1,10 @@
 import { format } from "date-fns";
+import { Transaction } from "../../types/transaction";
 import { categories } from "../../utils/categories";
 
 import * as S from "./styles";
 
-export type TransactionCardProps = {
-  type: "positive" | "negative";
-  title: string;
-  amount: string;
-  date: string;
-  category: string;
-};
+export type TransactionCardProps = Omit<Transaction, "id">;
 
 export const TransactionCard = ({
   type,

@@ -15,13 +15,13 @@ import {
 import * as S from "./styles";
 import theme from "../../global/styles/theme";
 
+import { Transaction } from "../../types/transaction";
+
 import { formatToBRL } from "../../utils/formatBRL";
 import { numberify } from "../../utils/numberify";
 import { formatTotalIntervalMessage } from "../../utils/formatTotalIntervalMessage";
 
-export interface DataListProps extends TransactionCardProps {
-  id: string;
-}
+export type DataListProps = Transaction;
 
 type HighlightProps = {
   amount: string;

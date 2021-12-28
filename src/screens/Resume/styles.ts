@@ -23,3 +23,9 @@ export const Title = styled.Text`
   font-size: ${RFValue(18)}px;
   font-family: ${({ theme }) => theme.fonts.regular};
 `;
+
+export const Content = styled.View`
+  padding: 24px;
+`;
+
+export const CategoriesList = styled.FlatList``;
