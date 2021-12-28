@@ -97,7 +97,7 @@ export function Dashboard() {
         : "Sem saídas recentes";
 
     const firstTransactionDate = Math.min.apply(Math, transactionsTimes);
-    const lastTransactionDate = Math.min.apply(Math, transactionsTimes);
+    const lastTransactionDate = Math.max.apply(Math, transactionsTimes);
 
     const totalInterval =
       transactions.length >= 1
