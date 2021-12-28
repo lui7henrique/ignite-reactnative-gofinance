@@ -16,7 +16,6 @@ import * as S from "./styles";
 import theme from "../../global/styles/theme";
 
 import { formatToBRL } from "../../utils/formatBRL";
-import { formatDateMMDDYYYY } from "../../utils/formatDateMMDDYYYY";
 import { numberify } from "../../utils/numberify";
 import { formatTotalIntervalMessage } from "../../utils/formatTotalIntervalMessage";
 
@@ -49,67 +48,61 @@ export function Dashboard() {
 
     const transactions: DataListProps[] = data.map((item: DataListProps) => {
       const amount = formatToBRL(+item.amount);
-      const date = format(new Date(item.date), "dd/MM/yy");
 
       return {
         ...item,
         amount,
-        date,
       };
     });
+
+    const transactionsTimes = transactions.map((transaction) =>
+      new Date(transaction.date).getTime()
+    );
 
     const entries = transactions.filter((item) => item.type === "positive");
     const entriesTotal = entries.reduce(
       (acc, item) => acc + numberify(item.amount),
       0
     );
-    const lastEntryDate = format(
-      Math.max.apply(
-        Math,
-        entries.map((item) => new Date(formatDateMMDDYYYY(item.date)).getTime())
-      ),
-      "'Última entrada dia' dd 'de' MMMM'",
-      {
-        locale: pt,
-      }
-    );
+    const entriesTimes = entries.map((item) => new Date(item.date).getTime());
+    const lastEntryDate =
+      entries.length >= 1
+        ? format(
+            Math.max.apply(Math, entriesTimes),
+            "'Última entrada dia' dd 'de' MMMM'",
+            {
+              locale: pt,
+            }
+          )
+        : "Sem entradas recentes";
 
     const expansives = transactions.filter((item) => item.type === "negative");
     const expensivesTotal = expansives.reduce(
       (acc, item) => acc + numberify(item.amount),
       0
     );
-    const lastExpensiveDate = format(
-      Math.max.apply(
-        Math,
-        expansives.map((item) =>
-          new Date(formatDateMMDDYYYY(item.date)).getTime()
-        )
-      ),
-      "'Última saída dia' dd 'de' MMMM'",
-      {
-        locale: pt,
-      }
+    const expansivesTimes = expansives.map((item) =>
+      new Date(item.date).getTime()
     );
 
-    const firstTransactionDate = Math.min.apply(
-      Math,
-      transactions.map((item) =>
-        new Date(formatDateMMDDYYYY(item.date)).getTime()
-      )
-    );
+    const lastExpensiveDate =
+      expansives.length >= 1
+        ? format(
+            Math.max.apply(Math, expansivesTimes),
+            "'Última saída dia' dd 'de' MMMM'",
+            {
+              locale: pt,
+            }
+          )
+        : "Sem saídas recentes";
 
-    const lastTransactionDate = Math.max.apply(
-      Math,
-      transactions.map((item) =>
-        new Date(formatDateMMDDYYYY(item.date)).getTime()
-      )
-    );
+    const firstTransactionDate = Math.min.apply(Math, transactionsTimes);
+    const lastTransactionDate = Math.min.apply(Math, transactionsTimes);
 
-    const totalInterval = formatTotalIntervalMessage(
-      firstTransactionDate,
-      lastTransactionDate
-    );
+    const totalInterval =
+      transactions.length >= 1
+        ? formatTotalIntervalMessage(firstTransactionDate, lastTransactionDate)
+        : "Sem transações recentes";
 
     setTransactions(transactions);
 

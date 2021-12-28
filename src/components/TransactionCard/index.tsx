@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { categories } from "../../utils/categories";
 
 import * as S from "./styles";
@@ -31,7 +32,7 @@ export const TransactionCard = ({
           <S.CategoryIcon name={category.icon} />
           <S.CategoryName>{category.name}</S.CategoryName>
         </S.Category>
-        <S.Date>{date}</S.Date>
+        <S.Date>{format(new Date(date), "dd/MM/yyyy")}</S.Date>
       </S.Footer>
     </S.Container>
   );

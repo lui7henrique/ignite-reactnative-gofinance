@@ -28,17 +28,7 @@ export const formatTotalIntervalMessage = (
 
   if (firstTransactionDateMonthName === lastTransactionDateMonthName) {
     return `de ${firstTransactionDateDay} à ${lastTransactionDateDay} de ${firstTransactionDateMonthName}`;
+  } else {
+    return `de ${firstTransactionDateDay} de ${firstTransactionDateMonthName} à ${lastTransactionDateDay} de ${lastTransactionDateMonthName}`;
   }
-
-  const firstTransactionDateMonthNumber = format(
-    new Date(firstTransactionDate),
-    "MM"
-  );
-
-  const lastTransactionDateMonthNumber = format(
-    new Date(lastTransactionDate),
-    "MM"
-  );
-
-  return `de ${firstTransactionDateDay} de ${firstTransactionDateMonthName} à ${lastTransactionDateDay} de ${lastTransactionDateMonthName}`;
 };
