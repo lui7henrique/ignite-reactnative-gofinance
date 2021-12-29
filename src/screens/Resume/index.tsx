@@ -4,6 +4,8 @@ import { ListRenderItem } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import { VictoryPie } from "victory-native";
 import { useFocusEffect } from "@react-navigation/native";
+import { addMonths, format, subMonths } from "date-fns";
+import pt from "date-fns/locale/pt";
 
 import { HistoryCard } from "../../components/HistoryCard";
 import theme from "../../global/styles/theme";
@@ -22,7 +24,18 @@ type Category = {
 };
 
 export const Resume = () => {
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [totalByCategories, setTotalByCategories] = useState<Category[]>([]);
+
+  const handleDateChange = (action: "next" | "previous") => {
+    if (action === "next") {
+      setSelectedDate(addMonths(selectedDate, 1));
+    }
+
+    if (action === "previous") {
+      setSelectedDate(subMonths(selectedDate, 1));
+    }
+  };
 
   const loadData = async () => {
     const dataKey = "@gofinances:transactions";
@@ -32,7 +45,11 @@ export const Resume = () => {
       const responseFormatted = response ? JSON.parse(response) : [];
 
       const expensives = responseFormatted.filter(
-        (transaction: Transaction) => transaction.type === "negative"
+        (transaction: Transaction) =>
+          transaction.type === "negative" &&
+          new Date(transaction.date).getMonth() === selectedDate.getMonth() &&
+          new Date(transaction.date).getFullYear() ===
+            selectedDate.getFullYear()
       );
 
       const expensivesTotal = expensives.reduce(
@@ -79,6 +96,10 @@ export const Resume = () => {
     />
   );
 
+  useEffect(() => {
+    loadData();
+  }, [selectedDate]);
+
   useFocusEffect(
     useCallback(() => {
       loadData();
@@ -91,11 +112,15 @@ export const Resume = () => {
         <S.Title>Resumo de gastos</S.Title>
       </S.Header>
       <S.SelectMonth>
-        <S.SelectMonthButton>
+        <S.SelectMonthButton onPress={() => handleDateChange("previous")}>
           <S.SelectMonthButtonIcon name="chevron-left" />
         </S.SelectMonthButton>
-        <S.Month>Text</S.Month>
-        <S.SelectMonthButton>
+        <S.Month>
+          {format(selectedDate, "MMMM', 'yyyy", {
+            locale: pt,
+          })}
+        </S.Month>
+        <S.SelectMonthButton onPress={() => handleDateChange("next")}>
           <S.SelectMonthButtonIcon name="chevron-right" />
         </S.SelectMonthButton>
       </S.SelectMonth>

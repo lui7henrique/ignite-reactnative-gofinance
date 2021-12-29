@@ -39,7 +39,7 @@ export const SelectMonthButton = styled.TouchableOpacity``;
 export const SelectMonthButtonIcon = styled(Feather)`
   color: ${({ theme }) => theme.colors.text};
 
-  font-size: ${RFValue(18)}px;
+  font-size: ${RFValue(24)}px;
   font-family: ${({ theme }) => theme.fonts.regular};
 `;
 
