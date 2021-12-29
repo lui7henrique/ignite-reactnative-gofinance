@@ -5,6 +5,7 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { VictoryPie } from "victory-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { addMonths, format, subMonths } from "date-fns";
+import { ActivityIndicator } from "react-native";
 import pt from "date-fns/locale/pt";
 
 import { HistoryCard } from "../../components/HistoryCard";
@@ -24,6 +25,7 @@ type Category = {
 };
 
 export const Resume = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [totalByCategories, setTotalByCategories] = useState<Category[]>([]);
 
@@ -39,6 +41,7 @@ export const Resume = () => {
 
   const loadData = async () => {
     const dataKey = "@gofinances:transactions";
+    setIsLoading(true);
 
     try {
       const response = await AsyncStorage.getItem(dataKey);
@@ -85,6 +88,7 @@ export const Resume = () => {
       });
 
       setTotalByCategories(totalByCategory);
+      setIsLoading(false);
     } catch (err) {}
   };
 
@@ -96,14 +100,10 @@ export const Resume = () => {
     />
   );
 
-  useEffect(() => {
-    loadData();
-  }, [selectedDate]);
-
   useFocusEffect(
     useCallback(() => {
       loadData();
-    }, [])
+    }, [selectedDate])
   );
 
   return (
@@ -125,28 +125,46 @@ export const Resume = () => {
         </S.SelectMonthButton>
       </S.SelectMonth>
 
-      <S.ChartContainer>
-        <VictoryPie
-          data={totalByCategories}
-          colorScale={totalByCategories.map((category) => category.color)}
-          style={{
-            labels: {
-              fontSize: RFValue(14),
-              fill: "white",
-              fontWeight: "bold",
-            },
-          }}
-          labelRadius={70}
-          y="total"
-          x="percent"
-        />
-      </S.ChartContainer>
-      <S.CategoriesList
-        data={totalByCategories}
-        renderItem={renderItem as ListRenderItem<unknown>}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 40 }}
-      />
+      {isLoading ? (
+        <S.LoadContainer>
+          <ActivityIndicator color={theme.colors.primary} size="large" />
+        </S.LoadContainer>
+      ) : (
+        <>
+          {totalByCategories.length > 0 ? (
+            <>
+              <S.ChartContainer>
+                <VictoryPie
+                  data={totalByCategories}
+                  colorScale={totalByCategories.map(
+                    (category) => category.color
+                  )}
+                  style={{
+                    labels: {
+                      fontSize: RFValue(12),
+                      fill: "white",
+                      fontWeight: "bold",
+                    },
+                  }}
+                  labelRadius={70}
+                  y="total"
+                  x="percent"
+                />
+              </S.ChartContainer>
+              <S.CategoriesList
+                data={totalByCategories}
+                renderItem={renderItem as ListRenderItem<unknown>}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{ paddingBottom: 40 }}
+              />
+            </>
+          ) : (
+            <S.NoData>
+              <S.NoDataText>Nenhum dado encontrado.</S.NoDataText>
+            </S.NoData>
+          )}
+        </>
+      )}
     </S.Container>
   );
 };

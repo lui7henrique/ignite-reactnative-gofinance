@@ -60,3 +60,21 @@ export const Content = styled.View``;
 export const CategoriesList = styled.FlatList`
   padding: 24px;
 `;
+
+export const LoadContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const NoData = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const NoDataText = styled.Text`
+  color: ${({ theme }) => theme.colors.text};
+  font-size: ${RFValue(16)}px;
+  font-family: ${({ theme }) => theme.fonts.regular};
+`;
