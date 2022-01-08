@@ -156,6 +156,7 @@ export const Resume = () => {
                 renderItem={renderItem as ListRenderItem<unknown>}
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: 40 }}
+                keyExtractor={(item: any) => item.name as string}
               />
             </>
           ) : (

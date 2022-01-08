@@ -17,6 +17,8 @@ import {
 } from "@expo-google-fonts/poppins";
 import { Toast } from "./src/components/Toast";
 
+import { SignIn } from "./src/screens/SignIn";
+
 export default function App() {
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
@@ -32,7 +34,8 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <NavigationContainer>
         <StatusBar backgroundColor="#5636d3" style="light" />
-        <AppRouter />
+        <SignIn></SignIn>
+        {/* <AppRouter /> */}
         <Toast />
       </NavigationContainer>
     </ThemeProvider>

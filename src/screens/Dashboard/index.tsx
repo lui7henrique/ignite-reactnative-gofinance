@@ -21,7 +21,9 @@ import { formatToBRL } from "../../utils/formatBRL";
 import { numberify } from "../../utils/numberify";
 import { formatTotalIntervalMessage } from "../../utils/formatTotalIntervalMessage";
 
-export type DataListProps = Transaction;
+export type DataListProps = {
+  id: string;
+} & Transaction;
 
 type HighlightProps = {
   amount: string;
@@ -197,6 +199,7 @@ export function Dashboard() {
               )}
               showsVerticalScrollIndicator={false}
               contentContainerStyle={{ paddingBottom: 40 }}
+              keyExtractor={(item: any) => item.id as string}
             />
           </S.Transactions>
         </>
