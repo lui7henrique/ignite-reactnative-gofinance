@@ -10,8 +10,16 @@ import LogoSvg from "../../assets/logo.svg";
 import * as S from "./styles";
 
 export const SignIn = () => {
-  const { user } = useAuth();
-  console.log(user.photo);
+  const { user, signInWithGoogle } = useAuth();
+
+  const handleSignInWithGoogle = async () => {
+    try {
+      await signInWithGoogle();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <S.Container>
       <S.Header>
@@ -27,8 +35,16 @@ export const SignIn = () => {
       </S.Header>
       <S.Footer>
         <S.FooterWrapper>
-          <SignInSocialButton title="Entrar com Google" svg={GoogleSvg} />
-          <SignInSocialButton title="Entrar com Apple" svg={AppleSvg} />
+          <SignInSocialButton
+            title="Entrar com Google"
+            svg={GoogleSvg}
+            onPress={handleSignInWithGoogle}
+          />
+          <SignInSocialButton
+            title="Entrar com Apple"
+            svg={AppleSvg}
+            onPress={handleSignInWithGoogle}
+          />
         </S.FooterWrapper>
       </S.Footer>
     </S.Container>

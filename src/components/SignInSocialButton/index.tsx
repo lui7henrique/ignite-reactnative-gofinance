@@ -1,12 +1,12 @@
 import React from "react";
-import { RectButtonProps } from "react-native-gesture-handler";
+import { TouchableOpacityProps, View } from "react-native";
 import { SvgProps } from "react-native-svg";
 import * as S from "./styles";
 
 type SignInSocialButtonProps = {
   title: string;
   svg: React.FC<SvgProps>;
-} & RectButtonProps;
+} & TouchableOpacityProps;
 
 export const SignInSocialButton = ({
   title,
@@ -14,7 +14,7 @@ export const SignInSocialButton = ({
   ...rest
 }: SignInSocialButtonProps) => {
   return (
-    <S.Button {...rest}>
+    <S.Button {...rest} activeOpacity={0.8}>
       <S.ImageContainer>
         <Svg />
       </S.ImageContainer>
