@@ -3,6 +3,7 @@ import { StatusBar } from "expo-status-bar";
 import AppLoading from "expo-app-loading";
 
 import { NavigationContainer } from "@react-navigation/native";
+import { AuthProvider } from "./src/hooks/auth";
 import { AppRouter } from "./src/routes/app.routes";
 
 import { ThemeProvider } from "styled-components";
@@ -34,7 +35,9 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <NavigationContainer>
         <StatusBar backgroundColor="#5636d3" style="light" />
-        <SignIn></SignIn>
+        <AuthProvider>
+          <SignIn />
+        </AuthProvider>
         {/* <AppRouter /> */}
         <Toast />
       </NavigationContainer>
