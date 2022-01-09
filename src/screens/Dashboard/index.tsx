@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
 import { ActivityIndicator } from "react-native";
 import pt from "date-fns/locale/pt";
-
+import { useAuth } from "../../hooks/auth";
 import { format } from "date-fns";
 
 import { HighlightCard } from "../../components/HighlightCard";
@@ -42,6 +42,7 @@ export function Dashboard() {
   const [highlightData, setHighlightData] = useState<HighlightData>(
     {} as HighlightData
   );
+  const { logOut } = useAuth();
 
   const loadTransactions = async () => {
     const dataKey = "@gofinances:transactions";
@@ -125,12 +126,6 @@ export function Dashboard() {
     setIsLoading(false);
   };
 
-  // TO DO - REMOVER
-  const resetTransactions = () => {
-    AsyncStorage.removeItem("@gofinances:transactions");
-    loadTransactions();
-  };
-
   useEffect(() => {
     loadTransactions();
   }, []);
@@ -160,7 +155,7 @@ export function Dashboard() {
                   <S.UserName>Luiz Henrique</S.UserName>
                 </S.User>
               </S.UserInfo>
-              <S.Icon name="power" size={24} onPress={resetTransactions} />
+              <S.Icon name="power" size={24} onPress={logOut} />
             </S.UserContainer>
           </S.Header>
 

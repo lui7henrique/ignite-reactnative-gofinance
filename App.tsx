@@ -2,9 +2,7 @@ import React from "react";
 import { StatusBar } from "expo-status-bar";
 import AppLoading from "expo-app-loading";
 
-import { NavigationContainer } from "@react-navigation/native";
 import { AuthProvider } from "./src/hooks/auth";
-import { AppRouter } from "./src/routes/app.routes";
 
 import { ThemeProvider } from "styled-components";
 
@@ -18,7 +16,7 @@ import {
 } from "@expo-google-fonts/poppins";
 import { Toast } from "./src/components/Toast";
 
-import { SignIn } from "./src/screens/SignIn";
+import { Routes } from "./src/routes";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -33,14 +31,11 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <NavigationContainer>
-        <StatusBar backgroundColor="#5636d3" style="light" />
-        <AuthProvider>
-          <SignIn />
-        </AuthProvider>
-        {/* <AppRouter /> */}
+      <StatusBar backgroundColor="#5636d3" style="light" />
+      <AuthProvider>
+        <Routes />
         <Toast />
-      </NavigationContainer>
+      </AuthProvider>
     </ThemeProvider>
   );
 }

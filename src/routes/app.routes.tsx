@@ -16,7 +16,7 @@ export type AppRoutesParamList = {
 
 const { Navigator, Screen } = createBottomTabNavigator<AppRoutesParamList>();
 
-export const AppRouter = () => {
+export const AppRoutes = () => {
   const theme = useTheme();
 
   return (
