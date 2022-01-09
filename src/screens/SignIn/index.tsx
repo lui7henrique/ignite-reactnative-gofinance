@@ -1,5 +1,7 @@
 import { RFValue } from "react-native-responsive-fontsize";
 import { useAuth } from "../../hooks/auth";
+import { Platform } from "react-native";
+import Toast from "react-native-toast-message";
 
 import { SignInSocialButton } from "../../components/SignInSocialButton";
 
@@ -10,13 +12,27 @@ import LogoSvg from "../../assets/logo.svg";
 import * as S from "./styles";
 
 export const SignIn = () => {
-  const { user, signInWithGoogle } = useAuth();
+  const { user, signInWithGoogle, signInWithApple } = useAuth();
 
   const handleSignInWithGoogle = async () => {
     try {
       await signInWithGoogle();
     } catch (error) {
-      console.log(error);
+      Toast.show({
+        type: "error",
+        text1: "Erro ao realizar login com Google",
+      });
+    }
+  };
+
+  const handleSignInWithApple = async () => {
+    try {
+      await signInWithApple();
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Erro ao realizar login com Apple",
+      });
     }
   };
 
@@ -40,11 +56,13 @@ export const SignIn = () => {
             svg={GoogleSvg}
             onPress={handleSignInWithGoogle}
           />
-          <SignInSocialButton
-            title="Entrar com Apple"
-            svg={AppleSvg}
-            onPress={handleSignInWithGoogle}
-          />
+          {Platform.OS === "ios" && (
+            <SignInSocialButton
+              title="Entrar com Apple"
+              svg={AppleSvg}
+              onPress={handleSignInWithApple}
+            />
+          )}
         </S.FooterWrapper>
       </S.Footer>
     </S.Container>

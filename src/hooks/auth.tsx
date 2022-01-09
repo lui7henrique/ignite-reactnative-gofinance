@@ -1,6 +1,11 @@
 import { createContext, useContext, useState } from "react";
 import { oauth } from "../services/oauth";
+const { CLIENT_ID } = process.env;
+const { REDIRECT_URI } = process.env;
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import * as AuthSession from "expo-auth-session";
+import * as AppleAuthentication from "expo-apple-authentication";
 
 type AuthProviderProps = {
   children: React.ReactNode;
@@ -16,6 +21,7 @@ type User = {
 type AuthContextData = {
   user: User;
   signInWithGoogle: () => Promise<void>;
+  signInWithApple: () => Promise<void>;
 };
 
 type AuthResponse = {
@@ -40,9 +46,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const signInWithGoogle = async () => {
     try {
-      const CLIENT_ID =
-        "163998651163-ml1qlmc12nin4h2po06ni3ouac5b77jm.apps.googleusercontent.com";
-      const REDIRECT_URI = "https://auth.expo.io/@lui7henrique/gofinance";
       const RESPONSE_TYPE = "token";
       const SCOPE = encodeURI("profile email");
 
@@ -52,8 +55,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         authUrl,
       })) as AuthResponse;
 
-      console.log(params);
-
       if (type === "success") {
         const { data } = await oauth.get("/userinfo", {
           params: {
@@ -61,20 +62,54 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
           },
         });
 
-        setUser({
+        const userLogged = {
           id: data.id,
           name: data.name,
           email: data.email,
           photo: data.picture,
-        });
+        };
+
+        setUser(userLogged);
+        await AsyncStorage.setItem(
+          "@gofinances:user",
+          JSON.stringify(userLogged)
+        );
       }
     } catch (error) {
       throw new Error(error as string);
     }
   };
 
+  const signInWithApple = async () => {
+    try {
+      const credentials = await AppleAuthentication.signInAsync({
+        requestedScopes: [
+          AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+          AppleAuthentication.AppleAuthenticationScope.EMAIL,
+        ],
+      });
+
+      if (credentials) {
+        const userLogged = {
+          id: String(credentials.user),
+          name: credentials.fullName?.givenName!,
+          email: credentials.email!,
+          photo: undefined,
+        };
+
+        setUser(userLogged);
+        await AsyncStorage.setItem(
+          "@gofinances:user",
+          JSON.stringify(userLogged)
+        );
+      }
+    } catch (err) {
+      throw new Error(err as string);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, signInWithGoogle }}>
+    <AuthContext.Provider value={{ user, signInWithGoogle, signInWithApple }}>
       {children}
     </AuthContext.Provider>
   );
