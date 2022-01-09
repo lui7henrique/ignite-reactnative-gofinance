@@ -1,9 +1,11 @@
 import styled from "styled-components/native";
 import { Feather } from "@expo/vector-icons";
 
-import { RFValue, RFPercentage } from "react-native-responsive-fontsize";
+import { RFValue } from "react-native-responsive-fontsize";
 
-export const Container = styled.View<{ type: "positive" | "negative" }>`
+export const Container = styled.TouchableOpacity<{
+  type: "positive" | "negative";
+}>`
   background-color: ${({ theme }) => theme.colors.shape};
   border-radius: 5px;
   border-left-width: 5px;

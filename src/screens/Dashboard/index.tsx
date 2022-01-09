@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useCallback } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, ListRenderItem } from "react-native";
 import pt from "date-fns/locale/pt";
 import { useAuth } from "../../hooks/auth";
 import { format } from "date-fns";
+import Toast from "react-native-toast-message";
 
 import { HighlightCard } from "../../components/HighlightCard";
 import {
@@ -126,6 +127,36 @@ export function Dashboard() {
     setIsLoading(false);
   };
 
+  const handleDeleteTransaction = async (id: string) => {
+    const newTransactions = transactions!.filter((item) => item.id !== id);
+    setTransactions(newTransactions);
+
+    const dataKey = `@gofinances:transactions_user:${user?.id}`;
+    const storage = await AsyncStorage.getItem(dataKey);
+    const transactionsStorage: DataListProps[] = storage
+      ? JSON.parse(storage)
+      : [];
+
+    const newTransactionsStorage = transactionsStorage.filter(
+      (item) => item.id !== id
+    );
+
+    await AsyncStorage.setItem(dataKey, JSON.stringify(newTransactionsStorage));
+    loadTransactions();
+
+    Toast.show({
+      type: "success",
+      text1: "Transação removida com sucesso",
+    });
+  };
+
+  const renderItem: ListRenderItem<TransactionCardProps> = ({ item }) => (
+    <TransactionCard
+      {...item}
+      onLongPress={() => handleDeleteTransaction(item.id)}
+    />
+  );
+
   useEffect(() => {
     loadTransactions();
   }, []);
@@ -191,9 +222,7 @@ export function Dashboard() {
 
             <S.TransactionsList
               data={transactions}
-              renderItem={({ item }) => (
-                <TransactionCard {...(item as TransactionCardProps)} />
-              )}
+              renderItem={renderItem as ListRenderItem<unknown>}
               showsVerticalScrollIndicator={false}
               contentContainerStyle={{ paddingBottom: 40 }}
               keyExtractor={(item: any) => item.id as string}
