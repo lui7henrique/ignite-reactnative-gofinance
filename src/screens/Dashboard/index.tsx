@@ -42,10 +42,10 @@ export function Dashboard() {
   const [highlightData, setHighlightData] = useState<HighlightData>(
     {} as HighlightData
   );
-  const { logOut } = useAuth();
+  const { logOut, user } = useAuth();
 
   const loadTransactions = async () => {
-    const dataKey = "@gofinances:transactions";
+    const dataKey = `@gofinances:transactions_user:${user?.id}`;
     const response = await AsyncStorage.getItem(dataKey);
     const data = response ? JSON.parse(response) : [];
 
@@ -148,11 +148,13 @@ export function Dashboard() {
             <S.UserContainer>
               <S.UserInfo>
                 <S.UserAvatar
-                  source={{ uri: "https://github.com/lui7henrique.png" }}
+                  source={{
+                    uri: user?.photo,
+                  }}
                 />
                 <S.User>
                   <S.UserWelcome>Bem vindo,</S.UserWelcome>
-                  <S.UserName>Luiz Henrique</S.UserName>
+                  <S.UserName>{user?.name}</S.UserName>
                 </S.User>
               </S.UserInfo>
               <S.Icon name="power" size={24} onPress={logOut} />

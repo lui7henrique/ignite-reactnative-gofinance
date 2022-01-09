@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Toast from "react-native-toast-message";
 import uuid from "react-native-uuid";
 import { useNavigation } from "@react-navigation/native";
+import { useAuth } from "../../hooks/auth";
 
 import { Button } from "../../components/Form/Button";
 import { CategorySelectButton } from "../../components/Form/CategorySelectButton";
@@ -34,6 +35,7 @@ export const Register = () => {
   const [transactionType, setTransactionType] = useState("");
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
   const [category, setCategory] = useState(categories[0]);
+  const { user } = useAuth();
 
   const {
     control,
@@ -86,7 +88,7 @@ export const Register = () => {
     };
 
     try {
-      const dataKey = "@gofinances:transactions";
+      const dataKey = `@gofinances:transactions_user:${user?.id}`;
 
       const data = await AsyncStorage.getItem(dataKey);
       const currentData = data ? JSON.parse(data) : [];

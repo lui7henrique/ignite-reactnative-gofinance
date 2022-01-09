@@ -1,6 +1,7 @@
 import { RFValue } from "react-native-responsive-fontsize";
 import { useAuth } from "../../hooks/auth";
-import { Platform } from "react-native";
+import { ActivityIndicator, Platform } from "react-native";
+import { useTheme } from "styled-components";
 import Toast from "react-native-toast-message";
 
 import { SignInSocialButton } from "../../components/SignInSocialButton";
@@ -10,29 +11,36 @@ import AppleSvg from "../../assets/apple.svg";
 import LogoSvg from "../../assets/logo.svg";
 
 import * as S from "./styles";
+import { useState } from "react";
 
 export const SignIn = () => {
   const { user, signInWithGoogle, signInWithApple } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const theme = useTheme();
 
   const handleSignInWithGoogle = async () => {
     try {
-      await signInWithGoogle();
+      setIsLoading(true);
+      return await signInWithGoogle();
     } catch (error) {
       Toast.show({
         type: "error",
         text1: "Erro ao realizar login com Google",
       });
+      setIsLoading(false);
     }
   };
 
   const handleSignInWithApple = async () => {
     try {
-      await signInWithApple();
+      setIsLoading(true);
+      return await signInWithApple();
     } catch (error) {
       Toast.show({
         type: "error",
         text1: "Erro ao realizar login com Apple",
       });
+      setIsLoading(false);
     }
   };
 
@@ -64,6 +72,15 @@ export const SignIn = () => {
             />
           )}
         </S.FooterWrapper>
+        {isLoading && (
+          <ActivityIndicator
+            color={theme.colors.primary}
+            size="large"
+            style={{
+              marginTop: RFValue(30),
+            }}
+          />
+        )}
       </S.Footer>
     </S.Container>
   );

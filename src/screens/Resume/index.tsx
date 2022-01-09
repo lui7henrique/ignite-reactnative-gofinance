@@ -7,6 +7,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { addMonths, format, subMonths } from "date-fns";
 import { ActivityIndicator } from "react-native";
 import pt from "date-fns/locale/pt";
+import { useAuth } from "../../hooks/auth";
 
 import { HistoryCard } from "../../components/HistoryCard";
 import theme from "../../global/styles/theme";
@@ -28,6 +29,7 @@ export const Resume = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [totalByCategories, setTotalByCategories] = useState<Category[]>([]);
+  const { logOut, user } = useAuth();
 
   const handleDateChange = (action: "next" | "previous") => {
     if (action === "next") {
@@ -40,7 +42,7 @@ export const Resume = () => {
   };
 
   const loadData = async () => {
-    const dataKey = "@gofinances:transactions";
+    const dataKey = `@gofinances:transactions_user:${user?.id}`;
     setIsLoading(true);
 
     try {
@@ -74,8 +76,6 @@ export const Resume = () => {
         const percent = `${((categorySum / expensivesTotal) * 100).toFixed(
           2
         )}%`;
-
-        console.log(percent);
 
         if (categorySum > 0) {
           totalByCategory.push({

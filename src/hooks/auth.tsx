@@ -23,7 +23,8 @@ type AuthContextData = {
   user: User | undefined;
   signInWithGoogle: () => Promise<void>;
   signInWithApple: () => Promise<void>;
-  logOut: () => void;
+  logOut: () => Promise<void>;
+  userStorageLoading: boolean;
 };
 
 type AuthResponse = {
@@ -46,6 +47,7 @@ const key = "@gofinances:user";
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | undefined>({} as User);
+  const [userStorageLoading, setUserStorageLoading] = useState(true);
 
   const signInWithGoogle = async () => {
     try {
@@ -90,11 +92,13 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       });
 
       if (credentials) {
+        const name = credentials.fullName?.givenName!;
+        const photo = `https://ui-avatars.com/api/?name=${name}&length=1`;
         const userLogged = {
           id: String(credentials.user),
-          name: credentials.fullName?.givenName!,
+          name,
           email: credentials.email!,
-          photo: undefined,
+          photo,
         };
 
         setUser(userLogged);
@@ -105,13 +109,13 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  const logOut = () => {
+  const logOut = async () => {
     setUser(undefined);
+    await AsyncStorage.removeItem("@gofinances:user");
     Toast.show({
       type: "success",
       text1: "Log-out feito com sucesso!",
     });
-    // AsyncStorage.removeItem("@gofinances:user");
   };
 
   useEffect(() => {
@@ -121,13 +125,20 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       if (userStorage) {
         setUser(JSON.parse(userStorage));
       }
+      setUserStorageLoading(false);
     };
     loadUserStorageData();
   }, []);
 
   return (
     <AuthContext.Provider
-      value={{ user, signInWithGoogle, signInWithApple, logOut }}
+      value={{
+        user,
+        signInWithGoogle,
+        signInWithApple,
+        logOut,
+        userStorageLoading,
+      }}
     >
       {children}
     </AuthContext.Provider>
