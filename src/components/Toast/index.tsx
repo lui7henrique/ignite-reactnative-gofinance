@@ -4,7 +4,7 @@ import ToastMessage, {
 } from "react-native-toast-message";
 import React from "react";
 import theme from "../../global/styles/theme";
-import { StatusBar } from "react-native";
+import { Platform, StatusBar } from "react-native";
 
 const toastConfig = {
   success: (props: any) => (
@@ -13,6 +13,7 @@ const toastConfig = {
       style={{
         borderLeftColor: theme.colors.success,
         backgroundColor: theme.colors.shape,
+        marginTop: Platform.OS === "ios" ? 20 : 0,
       }}
       contentContainerStyle={{ paddingHorizontal: 15 }}
       text1Style={{

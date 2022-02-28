@@ -29,9 +29,9 @@ export const AppRoutes = () => {
         tabBarInactiveBackgroundColor: theme.colors.primary,
         tabBarLabelPosition: "beside-icon",
         tabBarStyle: {
-          borderTopWidth: 0,
-          height: 50,
           paddingVertical: Platform.OS === "ios" ? 20 : 0,
+          height: 80,
+          backgroundColor: theme.colors.primary,
         },
       }}
     >

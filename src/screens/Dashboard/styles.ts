@@ -6,7 +6,7 @@ import { Feather } from "@expo/vector-icons";
 
 export const Container = styled.View`
   flex: 1;
-  background-color: ${({ theme }) => theme.colors.background}};
+  background-color: ${({ theme }) => theme.colors.background};
 `;
 
 /* -------------------------------------------------------------------------- */
@@ -21,7 +21,7 @@ export const Header = styled.View`
   width: 100%;
   height: ${RFPercentage(42)}px;
 
-  padding-top: ${RFValue(StatusBar.currentHeight! + 28)}px;
+  padding-top: ${RFValue(StatusBar.currentHeight! + 32)}px;
   padding-right: 24px;
   padding-left: 24px;
 `;
