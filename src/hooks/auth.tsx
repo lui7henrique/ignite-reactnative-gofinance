@@ -112,6 +112,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   const logOut = async () => {
     setUser(undefined);
     await AsyncStorage.removeItem("@gofinances:user");
+
     Toast.show({
       type: "success",
       text1: "Log-out feito com sucesso!",
@@ -121,12 +122,15 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     const loadUserStorageData = async () => {
       const userStorage = await AsyncStorage.getItem(key);
+      console.log(userStorage);
 
       if (userStorage) {
         setUser(JSON.parse(userStorage));
       }
+
       setUserStorageLoading(false);
     };
+
     loadUserStorageData();
   }, []);
 
